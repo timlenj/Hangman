@@ -10,6 +10,9 @@
 	<div id="lettersHit">
 		<p>Press a letter to start playing.</p>
 	</div>
+	<div id="counter">
+		<p>Tries Left: 9</p>
+	</div>
 	<div id="lettersMissed">
 		<p>Letters Missed</p>
 	</div>
@@ -20,7 +23,7 @@
 		var missHist=[];
 		var	wordToGuess="Testing with space";
 		var wordToGuessRevealed;
-		var guessesLeft=9;
+		var counter=9;
 		var k=0;
 		var missIndex=0;
 		var hitHist=[];
@@ -51,7 +54,7 @@
 			var Guess = String.fromCharCode(event.keyCode).toLowerCase();
 
 			//check to see if Guess is a letter and then if it has been guessed already
-			if(alphabet.indexOf(Guess)>0){
+			if(alphabet.indexOf(Guess)>=0){
 				if(guessHist.length!=0){
 					for(i=0;i<guessHist.length;i++){
 						if(guessHist[i]==Guess){
@@ -69,7 +72,6 @@
 					guessValidation=true
 				}
 			}
-
 		if(guessValidation==true){
 			console.log("out of validation!");
 			//store the guess in the history to check next time
@@ -87,10 +89,11 @@
 			}
 
 				if(hitcount==0){
-					//store the letter in missHist to display. abc order for display
+			//store the letter in missHist to display. abc order for display
 					missHist[missIndex]=Guess;
 					missHist.sort();
 					missIndex++;
+					counter--;
 				}
 				else{
 					hitHist[hitIndex]=Guess;
@@ -99,7 +102,7 @@
 				}
 
 				
-				//create the string to display to user
+			//create the string to display to user
 
 			wordToGuessRevealed=wordToGuessRevealedArr.toString();
 			wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
@@ -113,6 +116,7 @@
 
 			document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
 			document.querySelector('#lettersMissed').innerHTML = lettersMissedHTML;
+			document.querySelector('#counter').innerHTML= "<p>Tries Left: "+counter+"</p>";
 			}
 		}
 		</script>
