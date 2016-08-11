@@ -20,11 +20,12 @@
 		var missIndex=0;
 		var hitHist=[];
 		var hitIndex=0;
+
 		// replaceAt = function(index, character){
 		// 	return this.substr(0, index) + character + this.substr(index+character.length);
 		// }
 
-
+		wordToGuess=wordToGuess.toLowerCase();
 		var wordToGuessRevealedArr=[];
 
 			for(i=0;i<wordToGuess.length;i++){
@@ -42,35 +43,44 @@
 			console.log(wordToGuess+" "+wordToGuessRevealed);
 		
 		//user guesses a letter
-		document.onkeyup = function(event){
 
-			do{
+		document.onkeyup = function(event){
 
 			var guessValidation=false;
 
+
+			//store guess
 			var Guess = String.fromCharCode(event.keyCode).toLowerCase();
 
-				//check to see if letter has been guessed already
-				for(i=0;i<guessHist.length;i++){
-					if(guessHist[i]==Guess){
-						break;
-					}
-					else if(i==guessHist.length-1){
-						guessValidation==true;
-					}
-				}
+			//check to see if letter has been guessed already
 
-			}while(guessValidation==false);
-
-			//store the guess in the history to check next time
+				if(guessHist.length!=0){
+					for(i=0;i<guessHist.length;i++){
+						if(guessHist[i]==Guess){
+							break;
+						}
+						else if(i==guessHist.length-1){
+							guessHist[k]=Guess;
+							k++;
+							guessValidation=true;
+						}
+					}
+				}else{
 					guessHist[k]=Guess;
 					k++;
+					guessValidation=true
+				}
 
-			//check to see if letter is in the word. only need to check hidden only
+		if(guessValidation==true){
+			console.log("out of validation!");
+			//store the guess in the history to check next time
+
+
+			//check to see if letter is in the word
 
 			var hitcount=0;
 
-			for(i=0;i<wordToGuessHidden;i++){
+			for(i=0;i<wordToGuess.length;i++){
 				if(wordToGuess.charAt(i)==Guess){
 					wordToGuessRevealedArr[i]=Guess;
 					hitcount++;
@@ -92,16 +102,17 @@
 				
 				//create the string to display to user
 
-		// wordToGuessRevealed=wordToGuessRevealedArr.toString();
-		// wordToGuessRevealed = wordToGuessRevealed.replace(/,/g,'');	
-		// wordToGuessRevealed = wordToGuessRevealed.replace(/_/g,'_ ');
-		// console.log(wordToGuessRevealed);
-
+		wordToGuessRevealed=wordToGuessRevealedArr.toString();
+		wordToGuessRevealed = wordToGuessRevealed.replace(/,/g,'');	
+		wordToGuessRevealed = wordToGuessRevealed.replace(/_/g,'_ ');
+		console.log(wordToGuessRevealed);
+			}
+		}
 		// var missHistString = "<p>"+missHist.toString()+"</p>";
 
 
 		// document.queryselector('#lettersMissed').innerHTML = missHistString;
-		}
+		
 
 		</script>
 
