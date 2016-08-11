@@ -42,66 +42,66 @@
 			console.log(wordToGuess+" "+wordToGuessRevealed);
 		
 		//user guesses a letter
-		// document.onkeyup = function(event){
+		document.onkeyup = function(event){
 
-		// 	do{
+			do{
 
-		// 	var guessValidation=false;
+			var guessValidation=false;
 
-		// 	var Guess = String.fromCharCode(event.keyCode).toLowerCase();
+			var Guess = String.fromCharCode(event.keyCode).toLowerCase();
 
-		// 		//check to see if letter has been guessed already
-		// 		for(i=0;i<guessHist.length;i++){
-		// 			if(guessHist[i]==Guess){
-		// 				break;
-		// 			}
-		// 			else if(i==guessHist.length-1){
-		// 				guessValidation==true;
-		// 			}
-		// 		}
+				//check to see if letter has been guessed already
+				for(i=0;i<guessHist.length;i++){
+					if(guessHist[i]==Guess){
+						break;
+					}
+					else if(i==guessHist.length-1){
+						guessValidation==true;
+					}
+				}
 
-		// 	}while(guessValidation==false);
+			}while(guessValidation==false);
 
-		// 	//store the guess in the history to check next time
-		// 			guessHist[k]=Guess;
-		// 			k++;
+			//store the guess in the history to check next time
+					guessHist[k]=Guess;
+					k++;
 
-		// 	//check to see if letter is in the word. only need to check hidden only
+			//check to see if letter is in the word. only need to check hidden only
 
-		// 	var hitcount=0;
+			var hitcount=0;
 
-		// 	for(i=0;i<wordToGuessHidden;i++){
-		// 		if(wordToGuess.charAt(i)==Guess){
-		// 			wordToGuessRevealedArr[i]=Guess;
-		// 			hitcount++;
-		// 		}
-		// 	}
+			for(i=0;i<wordToGuessHidden;i++){
+				if(wordToGuess.charAt(i)==Guess){
+					wordToGuessRevealedArr[i]=Guess;
+					hitcount++;
+				}
+			}
 
-		// 		if(hitcount=0){
-		// 			//store the letter in missHist to display. abc order for display
-		// 			missHist[missIndex]=Guess;
-		// 			missHist.sort();
-		// 			missIndex++;
-		// 		}
-		// 		else{
-		// 			hitHist[hitIndex]=Guess;
-		// 			hitHist.sort();
-		// 			hitIndex++;
-		// 		}
+				if(hitcount=0){
+					//store the letter in missHist to display. abc order for display
+					missHist[missIndex]=Guess;
+					missHist.sort();
+					missIndex++;
+				}
+				else{
+					hitHist[hitIndex]=Guess;
+					hitHist.sort();
+					hitIndex++;
+				}
 
 				
-		// 		//create the string to display to user
+				//create the string to display to user
 
-		// // wordToGuessRevealed=wordToGuessRevealedArr.toString();
-		// // wordToGuessRevealed = wordToGuessRevealed.replace(/,/g,'');	
-		// // wordToGuessRevealed = wordToGuessRevealed.replace(/_/g,'_ ');
-		// // console.log(wordToGuessRevealed);
+		// wordToGuessRevealed=wordToGuessRevealedArr.toString();
+		// wordToGuessRevealed = wordToGuessRevealed.replace(/,/g,'');	
+		// wordToGuessRevealed = wordToGuessRevealed.replace(/_/g,'_ ');
+		// console.log(wordToGuessRevealed);
 
-		// // var missHistString = "<p>"+missHist.toString()+"</p>";
+		// var missHistString = "<p>"+missHist.toString()+"</p>";
 
 
-		// // document.queryselector('#lettersMissed').innerHTML = missHistString;
-		// }
+		// document.queryselector('#lettersMissed').innerHTML = missHistString;
+		}
 
 		</script>
 
