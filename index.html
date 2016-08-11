@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hangman!</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+<body>
+
+
+		<script type="text/javascript">
+
+		var guessHist=[];
+		var missHist=[];
+		var	wordToGuess="Testing";
+		var wordToGuessRevealed;
+		var guessesLeft=9;
+		var k=0;
+		var missIndex=0;
+		var hitHist=[];
+		var hitIndex=0;
+		// replaceAt = function(index, character){
+		// 	return this.substr(0, index) + character + this.substr(index+character.length);
+		// }
+
+
+		var wordToGuessRevealedArr=[];
+
+			for(i=0;i<wordToGuess.length;i++){
+				if(wordToGuess.charAt(i)!=' '){
+					wordToGuessRevealedArr[i]='_';
+				}
+				else{wordToGuessRevealedArr[i]=' ';
+				}
+			}
+
+		//store as string
+			wordToGuessRevealed=wordToGuessRevealedArr.toString();
+			wordToGuessRevealed = wordToGuessRevealed.replace(/,/g,' ');
+
+			console.log(wordToGuess+" "+wordToGuessRevealed);
+		
+		//user guesses a letter
+		// document.onkeyup = function(event){
+
+		// 	do{
+
+		// 	var guessValidation=false;
+
+		// 	var Guess = String.fromCharCode(event.keyCode).toLowerCase();
+
+		// 		//check to see if letter has been guessed already
+		// 		for(i=0;i<guessHist.length;i++){
+		// 			if(guessHist[i]==Guess){
+		// 				break;
+		// 			}
+		// 			else if(i==guessHist.length-1){
+		// 				guessValidation==true;
+		// 			}
+		// 		}
+
+		// 	}while(guessValidation==false);
+
+		// 	//store the guess in the history to check next time
+		// 			guessHist[k]=Guess;
+		// 			k++;
+
+		// 	//check to see if letter is in the word. only need to check hidden only
+
+		// 	var hitcount=0;
+
+		// 	for(i=0;i<wordToGuessHidden;i++){
+		// 		if(wordToGuess.charAt(i)==Guess){
+		// 			wordToGuessRevealedArr[i]=Guess;
+		// 			hitcount++;
+		// 		}
+		// 	}
+
+		// 		if(hitcount=0){
+		// 			//store the letter in missHist to display. abc order for display
+		// 			missHist[missIndex]=Guess;
+		// 			missHist.sort();
+		// 			missIndex++;
+		// 		}
+		// 		else{
+		// 			hitHist[hitIndex]=Guess;
+		// 			hitHist.sort();
+		// 			hitIndex++;
+		// 		}
+
+				
+		// 		//create the string to display to user
+
+		// // wordToGuessRevealed=wordToGuessRevealedArr.toString();
+		// // wordToGuessRevealed = wordToGuessRevealed.replace(/,/g,'');	
+		// // wordToGuessRevealed = wordToGuessRevealed.replace(/_/g,'_ ');
+		// // console.log(wordToGuessRevealed);
+
+		// // var missHistString = "<p>"+missHist.toString()+"</p>";
+
+
+		// // document.queryselector('#lettersMissed').innerHTML = missHistString;
+		// }
+
+		</script>
+
+
+
+
+
+</body>
+</html>
