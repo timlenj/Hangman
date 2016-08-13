@@ -24,28 +24,26 @@
 		var	wordToGuess="placeholder";
 		var prevWordToGuess="placeholder";
 		var wordToGuessArr=["final fantasy vii", "super smash brothers"];
+		var GuessIndex;
 		var wordToGuessRevealed;
-		var counter=9;
+		var counter;
+		var counterMax=9;
 		var k=0;
 		var missIndex=0;
 		var hitHist=[];
 		var hitIndex=0;
 		var alphabet = "abcdefghijklmnopqrstuvwxyz";
-		var clearBoard=true;
+		var newGame=true;
 		var winCheck="placeholder";
 
 
-		//check to see if user won. put the word into an array. make sure no repeat words are chosen
+		//start the game: pick word + put it into an array to display + set counter to counterMax
 
-		if(clearBoard==true){
-			do{
-				wordToGuess=wordToGuessArr[Math.floor(Math.random()*wordToGuessArr.length)].toLowerCase();
+		if(newGame==true){
+			counter=counterMax;
+			GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
+				wordToGuess=wordToGuessArr[GuessIndex].toLowerCase();
 				console.log(wordToGuess);
-			}while(prevWordToGuess==wordToGuess)
-				prevWordToGuess=wordToGuessArr;
-				clearBoard=false;
-
-		}
 
 		//store the word into an array that will be displayed
 		var wordToGuessRevealedArr=[];
@@ -57,7 +55,8 @@
 					wordToGuessRevealedArr[i]=' ';
 				}
 			}
-
+			newGame=false;
+		}
 		
 		//user guesses a letter
 
@@ -120,26 +119,66 @@
 			winCheck=wordToGuessRevealedArr.toString();
 			winCheck=winCheck.replace(/,/g,'');
 			winCheck=winCheck.replace(/_ /g,'');
-			//turn clear board on if user won
+
+			//turn clear board on if user won. remove the element from the array if won and pick new word
 			if(winCheck==wordToGuess){
-				clearBoard=true;
+
+				wordToGuessArr.splice(GuessIndex,1);
+
+				GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
+				wordToGuess=wordToGuessArr[GuessIndex].toLowerCase();
+				console.log(wordToGuess);
+
+				wordToGuessRevealedArr=[];
+
+				for(i=0;i<wordToGuess.length;i++){
+					if(wordToGuess.charAt(i)!=' '){
+						wordToGuessRevealedArr[i]='_';
+				}
+					else{
+						wordToGuessRevealedArr[i]=' ';
+				}
+			}
+
+				var lettersHitHTML="<p>You won! Press another letter to play again!</p>"
+				counter=counterMax;
+				guessHist=[];
+			}
+			//display hits if game not over and not won
+			else if(winCheck!=wordToGuess&&counter>0){
+				wordToGuessRevealed=wordToGuessRevealedArr.toString();
+				wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
+				wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
+				var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
+
+			}
+			//game over. pick new word but do not remove the word that you did not guess
+			else{
+				GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
+				wordToGuess=wordToGuessArr[GuessIndex].toLowerCase();
+				console.log(wordToGuess);
+
+				wordToGuessRevealedArr=[];
+
+				for(i=0;i<wordToGuess.length;i++){
+					if(wordToGuess.charAt(i)!=' '){
+						wordToGuessRevealedArr[i]='_';
+				}
+					else{
+						wordToGuessRevealedArr[i]=' ';
+				}
+			}
+				var lettersHitHTML="<p>Game Over</p>";
+				counter=counterMax;
+				guessHist=[];
 			}
 
 			//display users "hits" if game is still on
-			if(clearBoard==false){
-			wordToGuessRevealed=wordToGuessRevealedArr.toString();
-			wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
-			wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
-				var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
-			}
-			//display "yay" if user won
- 			else if(clearBoard==true){
-				var lettersHitHTML="<p>You won! Press another letter to play again!</p>"
-			}
-			
+
+
 			//display misses	
-				var missHistString=missHist.toString()
-				missHistString=missHistString.replace(/,/g,', ')
+				var missHistString=missHist.toString();
+				missHistString=missHistString.replace(/,/g,', ');
 				var lettersMissedHTML = "<p>"+missHistString+"</p>";
 
 			//the actual queryselectors
