@@ -21,7 +21,9 @@
 
 		var guessHist=[];
 		var missHist=[];
-		var	wordToGuess="Testing with space";
+		var	wordToGuess="placeholder";
+		var prevWordToGuess="placeholder";
+		var wordToGuessArr=["final fantasy vii", "super smash brothers"];
 		var wordToGuessRevealed;
 		var counter=9;
 		var k=0;
@@ -29,17 +31,30 @@
 		var hitHist=[];
 		var hitIndex=0;
 		var alphabet = "abcdefghijklmnopqrstuvwxyz";
+		var clearBoard=true;
+		var winCheck="placeholder";
 
 
-		//put the word into an array
-		wordToGuess=wordToGuess.toLowerCase();
+		//check to see if user won. put the word into an array. make sure no repeat words are chosen
+
+		if(clearBoard==true){
+			do{
+				wordToGuess=wordToGuessArr[Math.floor(Math.random()*wordToGuessArr.length)].toLowerCase();
+				console.log(wordToGuess);
+			}while(prevWordToGuess==wordToGuess)
+				prevWordToGuess=wordToGuessArr;
+				clearBoard=false;
+
+		}
+
+		//store the word into an array that will be displayed
 		var wordToGuessRevealedArr=[];
-
 			for(i=0;i<wordToGuess.length;i++){
 				if(wordToGuess.charAt(i)!=' '){
 					wordToGuessRevealedArr[i]='_';
 				}
-				else{wordToGuessRevealedArr[i]=' ';
+				else{
+					wordToGuessRevealedArr[i]=' ';
 				}
 			}
 
@@ -60,6 +75,7 @@
 						if(guessHist[i]==Guess){
 							break;
 						}
+				//store the guess in the history to check next time
 						else if(i==guessHist.length-1){
 							guessHist[k]=Guess;
 							k++;
@@ -74,8 +90,6 @@
 			}
 		if(guessValidation==true){
 			console.log("out of validation!");
-			//store the guess in the history to check next time
-
 
 			//check to see if letter is in the word
 
@@ -89,31 +103,46 @@
 			}
 
 				if(hitcount==0){
-			//store the letter in missHist to display. abc order for display
+			//store the letter in missHist to display misses. abc order for display
 					missHist[missIndex]=Guess;
 					missHist.sort();
 					missIndex++;
 					counter--;
 				}
 				else{
+			//dunno why i did this but why not
 					hitHist[hitIndex]=Guess;
 					hitHist.sort();
 					hitIndex++;
 				}
 
-				
-			//create the string to display to user
+			//check to see if user won the game
+			winCheck=wordToGuessRevealedArr.toString();
+			winCheck=winCheck.replace(/,/g,'');
+			winCheck=winCheck.replace(/_ /g,'');
+			//turn clear board on if user won
+			if(winCheck==wordToGuess){
+				clearBoard=true;
+			}
 
+			//display users "hits" if game is still on
+			if(clearBoard==false){
 			wordToGuessRevealed=wordToGuessRevealedArr.toString();
 			wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
 			wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
 				var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
-				
-			var missHistString=missHist.toString()
-			missHistString=missHistString.replace(/,/g,', ')
+			}
+			//display "yay" if user won
+ 			else if(clearBoard==true){
+				var lettersHitHTML="<p>You won! Press another letter to play again!</p>"
+			}
+			
+			//display misses	
+				var missHistString=missHist.toString()
+				missHistString=missHistString.replace(/,/g,', ')
 				var lettersMissedHTML = "<p>"+missHistString+"</p>";
 
-
+			//the actual queryselectors
 			document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
 			document.querySelector('#lettersMissed').innerHTML = lettersMissedHTML;
 			document.querySelector('#counter').innerHTML= "<p>Tries Left: "+counter+"</p>";
