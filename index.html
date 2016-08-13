@@ -17,7 +17,7 @@
 		<p>Letters Missed</p>
 	</div>
 	<div id="timer">
-		<p>0.000s</p>
+		<p>0.00 sec</p>
 	</div>
 
 		<script type="text/javascript">
@@ -40,7 +40,8 @@
 		var winCheck="placeholder";
 		var score=0;
 		var roundEndTime;
-		var roundCurrentTime;
+		var roundCurrentTime=0;
+		var roundStartTime=0;
 
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
@@ -73,23 +74,23 @@
 			roundStartTime=new Date().getTime();
 		}
 
+		function setRoundCurrentTime(){
+			roundCurrentTime=(new Date().getTime()-roundStartTime)/1000
+			timerHTML="<p>"+roundCurrentTime +"sec</p>";
+			document.querySelector('#timer').innerHTML = timerHTML;
+		}
+
 //---------------------------CODE STARTS HERE------------------------------------
-
-
-		//constantly display timer
-		// roundCurrentTime=new Date().getTime()-roundStartTime();
-		// timerHTML=roundCurrentTime +"s";
-		// document.querySelector('#timer').innerHTML = timerHTML;
-
+		
 
 		document.onkeyup = function(event){
-
-		//start the game: pick word + put it into an array to display + set counter to counterMax
 
 			if(newGameBoo==true){
 				newGame();
 				newGameBoo=false;
-				var roundStartTime=new Date().getTime();
+				roundStartTime=new Date().getTime();
+				setInterval(function() {setRoundCurrentTime()},100);
+
 			}
 
 			var guessValidation=false;
@@ -185,6 +186,8 @@
 			document.querySelector('#counter').innerHTML= "<p>Tries Left: "+counter+"</p>";
 			}
 		}
+
+
 		</script>
 
 
