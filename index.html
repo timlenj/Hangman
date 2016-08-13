@@ -33,29 +33,35 @@
 		var hitHist=[];
 		var hitIndex=0;
 		var alphabet = "abcdefghijklmnopqrstuvwxyz";
-		var newGame=true;
+		var newGameBoo=true;
 		var winCheck="placeholder";
 
 
-		//start the game: pick word + put it into an array to display + set counter to counterMax
 
-		if(newGame==true){
+		//FUNCTIONS HERE DUDEEEE!!!!!
+		function newGame(){
 			counter=counterMax;
 			GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
-				wordToGuess=wordToGuessArr[GuessIndex].toLowerCase();
-				console.log(wordToGuess);
+			wordToGuess=wordToGuessArr[GuessIndex].toLowerCase();
+			console.log(wordToGuess);
 
-		//store the word into an array that will be displayed
-		var wordToGuessRevealedArr=[];
-			for(i=0;i<wordToGuess.length;i++){
-				if(wordToGuess.charAt(i)!=' '){
-					wordToGuessRevealedArr[i]='_';
-				}
+			wordToGuessRevealedArr=[];
+				for(i=0;i<wordToGuess.length;i++){
+					if(wordToGuess.charAt(i)!=' '){
+						wordToGuessRevealedArr[i]='_';
+					}
 				else{
 					wordToGuessRevealedArr[i]=' ';
 				}
 			}
-			newGame=false;
+			guessHist=[];
+		}
+
+		//start the game: pick word + put it into an array to display + set counter to counterMax
+
+		if(newGameBoo=true){
+			newGame();
+			newGameBoo=false;
 		}
 		
 		//user guesses a letter
@@ -123,26 +129,9 @@
 			//turn clear board on if user won. remove the element from the array if won and pick new word
 			if(winCheck==wordToGuess){
 
-				wordToGuessArr.splice(GuessIndex,1);
-
-				GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
-				wordToGuess=wordToGuessArr[GuessIndex].toLowerCase();
-				console.log(wordToGuess);
-
-				wordToGuessRevealedArr=[];
-
-				for(i=0;i<wordToGuess.length;i++){
-					if(wordToGuess.charAt(i)!=' '){
-						wordToGuessRevealedArr[i]='_';
-				}
-					else{
-						wordToGuessRevealedArr[i]=' ';
-				}
-			}
-
 				var lettersHitHTML="<p>You won! Press another letter to play again!</p>"
-				counter=counterMax;
-				guessHist=[];
+				wordToGuessArr.splice(GuessIndex,1);
+				newGame();
 			}
 			//display hits if game not over and not won
 			else if(winCheck!=wordToGuess&&counter>0){
@@ -154,23 +143,8 @@
 			}
 			//game over. pick new word but do not remove the word that you did not guess
 			else{
-				GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
-				wordToGuess=wordToGuessArr[GuessIndex].toLowerCase();
-				console.log(wordToGuess);
-
-				wordToGuessRevealedArr=[];
-
-				for(i=0;i<wordToGuess.length;i++){
-					if(wordToGuess.charAt(i)!=' '){
-						wordToGuessRevealedArr[i]='_';
-				}
-					else{
-						wordToGuessRevealedArr[i]=' ';
-				}
-			}
 				var lettersHitHTML="<p>Game Over</p>";
-				counter=counterMax;
-				guessHist=[];
+				newGame();
 			}
 
 			//display users "hits" if game is still on
