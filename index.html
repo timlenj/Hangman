@@ -19,6 +19,9 @@
 	<div id="timer">
 		<p>0.00 sec</p>
 	</div>
+	<div id="score">
+		<p>0</p>
+	</div>
 
 		<script type="text/javascript">
 
@@ -26,7 +29,7 @@
 		var missHist=[];
 		var	wordToGuess="placeholder";
 		var prevWordToGuess="placeholder";
-		var wordToGuessArr=["final fantasy vii", "super smash brothers"];
+		var wordToGuessArr=["final fantasy vii", "super smash brothers","orcarina of time","x com","chrono trigger","call of duty","elder scrolls"];
 		var GuessIndex;
 		var wordToGuessRevealed;
 		var counter;
@@ -39,11 +42,13 @@
 		var newGameBoo=true;
 		var winCheck="placeholder";
 		var score=0;
+		var roundscore=0;
+		var combo=1;
 		var roundEndTime;
 		var roundCurrentTime=0;
 		var roundStartTime=0;
-
-
+		var difficulyMultiplier=1;
+		var wonRounds=0;
 		//FUNCTIONS HERE DUDEEEE!!!!!
 		function newGame(){
 			counter=counterMax;
@@ -61,17 +66,38 @@
 				}
 			}
 			guessHist=[];
-		}
-		function addScore(){
-			var scoreMultiplier;
+				wordToGuessRevealed=wordToGuessRevealedArr.toString();
+				wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
+				wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
+				var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
+				document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
 
+		}
+		function displayScore(){
+			scoreHTML="<p>"+score+"</p>";
+			document.querySelector('#score').innerHTML=scoreHTML;
+		}
+		function addRoundScore(){
+			roundscore=50*combo;
+			score=score+roundscore;
+			combo++;
+			displayScore();
+		}
+		function addEndOfRoundMultipler(){
+			wonRounds++;
+			var scoreMultiplier;
 			roundEndTime=new Date().getTime();
 
-			var roundCompleteTime=roundEndTime-roundStartTime;
-				scoreMultipler=2000/(roundCompleteTime) + 2;
-			score=(counterMax-counter)*scoreMultiplier;
+			roundCompleteTime=(roundEndTime-roundStartTime)/1000;
 
+			scoreMultiplier=parseInt(80/(roundCompleteTime)+2)*Math.pow((1+wonRounds/6),(1+wonRounds/15));
+
+			score=Math.floor(score+(roundscore)*scoreMultiplier*difficulyMultiplier);
+
+			roundscore=0;
+			displayScore();
 			roundStartTime=new Date().getTime();
+
 		}
 
 		function setRoundCurrentTime(){
@@ -85,12 +111,12 @@
 
 		document.onkeyup = function(event){
 
+			//start new game and first round timer
 			if(newGameBoo==true){
 				newGame();
 				newGameBoo=false;
 				roundStartTime=new Date().getTime();
 				setInterval(function() {setRoundCurrentTime()},100);
-
 			}
 
 			var guessValidation=false;
@@ -138,12 +164,17 @@
 					missHist.sort();
 					missIndex++;
 					counter--;
+					combo--;
+					if(combo<=0){
+						combo=1;
+					}
 				}
 				else{
 			//dunno why i did this but why not
 					hitHist[hitIndex]=Guess;
 					hitHist.sort();
 					hitIndex++;
+					addRoundScore();
 				}
 
 			//check to see if user won the game
@@ -153,9 +184,8 @@
 
 			//turn clear board on if user won. remove the element from the array if won and pick new word
 			if(winCheck==wordToGuess){
-
-				var lettersHitHTML="<p>You won! Press another letter to play again!</p>"
 				wordToGuessArr.splice(GuessIndex,1);
+				addEndOfRoundMultipler();
 				newGame();
 			}
 			//display hits if game not over and not won
@@ -164,7 +194,7 @@
 				wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
 				wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
 				var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
-
+				document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
 			}
 			//game over. pick new word but do not remove the word that you did not guess
 			else{
@@ -181,7 +211,6 @@
 				var lettersMissedHTML = "<p>"+missHistString+"</p>";
 
 			//the actual queryselectors
-			document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
 			document.querySelector('#lettersMissed').innerHTML = lettersMissedHTML;
 			document.querySelector('#counter').innerHTML= "<p>Tries Left: "+counter+"</p>";
 			}
