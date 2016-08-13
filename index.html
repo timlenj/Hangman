@@ -16,6 +16,9 @@
 	<div id="lettersMissed">
 		<p>Letters Missed</p>
 	</div>
+	<div id="timer">
+		<p>0.000s</p>
+	</div>
 
 		<script type="text/javascript">
 
@@ -35,7 +38,9 @@
 		var alphabet = "abcdefghijklmnopqrstuvwxyz";
 		var newGameBoo=true;
 		var winCheck="placeholder";
-
+		var score=0;
+		var roundEndTime;
+		var roundCurrentTime;
 
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
@@ -56,17 +61,36 @@
 			}
 			guessHist=[];
 		}
+		function addScore(){
+			var scoreMultiplier;
+
+			roundEndTime=new Date().getTime();
+
+			var roundCompleteTime=roundEndTime-roundStartTime;
+				scoreMultipler=2000/(roundCompleteTime) + 2;
+			score=(counterMax-counter)*scoreMultiplier;
+
+			roundStartTime=new Date().getTime();
+		}
+
+//---------------------------CODE STARTS HERE------------------------------------
+
+
+		//constantly display timer
+		// roundCurrentTime=new Date().getTime()-roundStartTime();
+		// timerHTML=roundCurrentTime +"s";
+		// document.querySelector('#timer').innerHTML = timerHTML;
+
+
+		document.onkeyup = function(event){
 
 		//start the game: pick word + put it into an array to display + set counter to counterMax
 
-		if(newGameBoo=true){
-			newGame();
-			newGameBoo=false;
-		}
-		
-		//user guesses a letter
-
-		document.onkeyup = function(event){
+			if(newGameBoo==true){
+				newGame();
+				newGameBoo=false;
+				var roundStartTime=new Date().getTime();
+			}
 
 			var guessValidation=false;
 
