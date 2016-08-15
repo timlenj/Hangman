@@ -3,23 +3,25 @@
 <head>
 	<title>Hangman!</title>
 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Share|Unica+One|Ubuntu' rel='stylesheet' type='text/css'>
 
 </head>
 <body>
 	<div id="lettersHit">
 		<p>Press a letter to start playing.</p>
 	</div>
-	<div id="counter">
+	<div id="counter" class="hud">
 		<p>Tries Left: 9</p>
 	</div>
-	<div id="lettersMissed">
+	<div id="lettersMissed" class="hud">
 		<p>Letters Missed</p>
 	</div>
-	<div id="timer">
+	<div id="timer" class="hud">
 		<p>0.00 sec</p>
 	</div>
-	<div id="score">
+	<div id="score" class="hud">
 		<p>0</p>
 	</div>
 
@@ -53,6 +55,18 @@
 		//SOUND EFFECTS
 		var hitSound = new Audio();
 		hitSound.src = 'assets/sounds/guessed_letter.mp3';
+		hitSound.volume=.75;
+		var hitSound2 = new Audio();
+		hitSound2.src = 'assets/sounds/guessed_letter2.mp3';
+		hitSound2.volume=.6;
+		var killWord = new Audio();
+		killWord.src = 'assets/sounds/kill_word.mp3';
+		killWord.volume = .6;
+		var killWord2 = new Audio();
+		killWord2.src = 'assets/sounds/kill_word2.mp3';
+		var missSound = new Audio();
+		missSound.src = 'assets/sounds/wrong_letter.mp3';
+		missSound.volume = .8;
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
 		function playSound(sound){
@@ -84,7 +98,9 @@
 					wordToGuessRevealedArr[i]=" ";
 				}
 			}
+			missIndex=0;
 			guessHist=[];
+			missHist.splice(0,missHist.length);
 			displayRevealed();
 		}
 
@@ -118,7 +134,7 @@
 
 		function setRoundCurrentTime(){
 			roundCurrentTime=(new Date().getTime()-roundStartTime)/1000
-			timerHTML="<p>"+roundCurrentTime +"sec</p>";
+			timerHTML="<p>"+roundCurrentTime.toFixed(2) +"sec</p>";
 			document.querySelector('#timer').innerHTML = timerHTML;
 		}
 
@@ -132,7 +148,7 @@
 				newGame();
 				newGameBoo=false;
 				roundStartTime=new Date().getTime();
-				setInterval(function() {setRoundCurrentTime()},100);
+				setInterval(function() {setRoundCurrentTime()},50);
 			}
 
 			var guessValidation=false;
@@ -175,6 +191,7 @@
 
 				if(hitcount==0){
 			//store the letter in missHist to display misses. abc order for display
+					playSound(missSound);
 					missHist[missIndex]=Guess;
 					missHist.sort();
 					missIndex++;
@@ -187,6 +204,7 @@
 				else{
 			//dunno why i did this but why not
 					playSound(hitSound);
+					playSound(hitSound2);
 					hitHist[hitIndex]=Guess;
 					hitHist.sort();
 					hitIndex++;
@@ -202,6 +220,8 @@
 			if(winCheck==wordToGuess){
 				wordToGuessArr.splice(GuessIndex,1);
 				addEndOfRoundMultipler();
+				playSound(killWord);
+				playSound(killWord2);
 				newGame();
 			}
 			//display hits if game not over and not won
@@ -211,13 +231,10 @@
 			//game over. pick new word but do not remove the word that you did not guess
 			else{
 				var lettersHitHTML="<p>Game Over</p>";
-				newGame();
 			}
 
 			//display misses	
-				var missHistString=missHist.toString();
-				missHistString=missHistString.replace(/,/g,', ');
-				var lettersMissedHTML = "<p>"+missHistString+"</p>";
+				var lettersMissedHTML = "<p>"+missHist+"</p>";
 
 			//the actual queryselectors
 			document.querySelector('#lettersMissed').innerHTML = lettersMissedHTML;

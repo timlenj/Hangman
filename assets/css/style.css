@@ -5,7 +5,7 @@
 
 }
 #lettersHit{
-	
+	font-family:"Unica One";
 }
 #counter{
 	
@@ -14,5 +14,11 @@
 
 }
 #score{
-	
+
+}
+.container{
+
+}
+.hud{
+	font-family:"Share";	
 }
