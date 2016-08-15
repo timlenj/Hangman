@@ -9,9 +9,14 @@
 
 </head>
 <body>
-<div class="container jumbotron">
+<div id="container" class="container jumbotron">
+	<div class="row">
+		<div id="statusHud" class="dspNone">
+			<span class="glyphicon glyphicon-fire"></span>
+		</div>
+	</div>
 
-	<div class="row row-centered">
+	<div class="row">
 		<div id="timer" class="hud col-lg-6">
 			<p>0.00 sec</p>
 		</div>
@@ -73,6 +78,8 @@
 		var difficulyMultiplier=1;
 		var wonRounds=0;
 		var displayValue;
+		var isInvincible=false;
+		var hitsInRow=0;
 
 		//SOUND EFFECTS
 		var hitSound = new Audio();
@@ -89,8 +96,22 @@
 		var missSound = new Audio();
 		missSound.src = 'assets/sounds/wrong_letter.mp3';
 		missSound.volume = .8;
+		var invincible = new Audio()
+		invincible.src = 'assets/sounds/invincible.mp3'
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
+		function invincibleTrigger(){
+			playSound(invincible);
+			document.getElementById('statusHud').className="";
+			isInvincible=true;
+			setTimeout(function() {
+				isInvincible=false;
+				hitsInRow=0;
+			document.getElementById('statusHud').className="dspNone";
+			},5000
+			);
+		}
+
 
 		function hpModify(value){
 			displayValue=value;
@@ -169,7 +190,12 @@
 		}
 
 		function addRoundScore(){
-			roundscore=50*combo;
+			if(isInvincible==false){
+				roundscore=50*combo;
+			}
+			else{
+				roundscore=50*combo*hitsInRow;
+			}
 			score=score+roundscore;
 			combo++;
 			scoreRoundAnimation(roundscore);
@@ -247,20 +273,36 @@
 				if(wordToGuess.charAt(i)==Guess){
 					wordToGuessRevealedArr[i]=Guess;
 					hitcount++;
+					hitsInRow++;
 				}
 			}
+			//godmode
+			if(hitsInRow==10){
+				invincibleTrigger();
+			}
+
 
 				if(hitcount==0){
 			//store the letter in missHist to display misses. abc order for display
-					playSound(missSound);
-					hpModify(-1);
-					missHist[missIndex]=Guess;
-					missHist.sort();
-					missIndex++;
-					counter--;
-					combo--;
-					if(combo<=0){
-						combo=1;
+					if(isInvincible==false){
+						playSound(missSound);
+						hpModify(-1);
+						missHist[missIndex]=Guess;
+						missHist.sort();
+						missIndex++;
+						counter--;
+						combo--;
+						if(combo<=0){
+							combo=1;
+						}
+						hitsInRow=0;
+					}
+					else{
+						playSound(missSound);
+						hpModify(0);
+						missHist[missIndex]=Guess;
+						missHist.sort();
+						missIndex++;		
 					}
 				}
 				else{
