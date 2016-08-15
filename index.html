@@ -45,10 +45,16 @@
 			<p>0</p>
 		</div>
 	</div>
+	<div class="row">
+		<div id="limitBreakProgress" class="hud">
+			<p>Limit Break: 0/0</p>
+		</div>
+	</div>
+	<div class="row">
 		<div id="lettersMissed" class="hud">
 			<p>Letters Missed: </p>
 		</div>
-
+	</div>
 
 </div>
 		<script type="text/javascript">
@@ -80,6 +86,7 @@
 		var displayValue;
 		var isInvincible=false;
 		var hitsInRow=0;
+		var limitBreakCounter=0;
 
 		//SOUND EFFECTS
 		var hitSound = new Audio();
@@ -100,6 +107,8 @@
 		invincible.src = 'assets/sounds/invincible.mp3'
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
+
+		//this function turns on your super saiyen mode
 		function invincibleTrigger(){
 			playSound(invincible);
 			document.getElementById('statusHud').className="";
@@ -107,12 +116,14 @@
 			setTimeout(function() {
 				isInvincible=false;
 				hitsInRow=0;
+				limitBreakCounter=0;
+				limitBreakDisplay(limitBreakCounter);
 			document.getElementById('statusHud').className="dspNone";
-			},5000
+			},6000
 			);
 		}
 
-
+		//this function creates the +/-1 hp indicator next to the HP 
 		function hpModify(value){
 			displayValue=value;
 			if(value<0){
@@ -129,6 +140,12 @@
 			},300);
 		}
 
+		function limitBreakDisplay(value){
+			displayValue=value;
+			document.querySelector('#limitBreakProgress').innerHTML="<p>Limit Break: "+limitBreakCounter.toString()+"/10</p>"
+		}
+
+		//this function creates the green +XXX animation under the revealed letters
 		function scoreRoundAnimation(value){
 			displayValue=value;
 			document.getElementById('scoreAni').style.color="#90ee90";
@@ -139,6 +156,7 @@
 			},300);
 		}
 
+		//this function creates the orange "number x!!!" near the score
 		function scoreWordAnimation(value){
 			displayValue=value;
 			document.getElementById('scoreWordAni').style.color="#d2691e";
@@ -149,11 +167,13 @@
 			},1500);
 		}
 
+		//function used to play sounds
 		function playSound(sound){
 			sound.play();
 			sound.currentTime=0;
 		}
 
+		//function used to display revealed letters
 		function displayRevealed(){
 			wordToGuessRevealed=wordToGuessRevealedArr.toString();
 			wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');
@@ -163,6 +183,7 @@
 			document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
 		}
 
+		//function used to create a new board
 		function newGame(){
 			counter=counterMax;
 			GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
@@ -184,11 +205,13 @@
 			displayRevealed();
 		}
 
+		//function used to display the score
 		function displayScore(){
 			scoreHTML="<p>Score: "+score+"</p>";
 			document.querySelector('#score').innerHTML=scoreHTML;
 		}
 
+		//function used to add the round score to total score
 		function addRoundScore(){
 			if(isInvincible==false){
 				roundscore=50*combo;
@@ -202,6 +225,7 @@
 			displayScore();
 		}
 
+		//function used to generate the "end of word" score
 		function addEndOfRoundMultipler(){
 			wonRounds++;
 			var scoreMultiplier;
@@ -219,6 +243,7 @@
 			roundStartTime=new Date().getTime();
 		}
 
+		//function used to increment the timer
 		function setRoundCurrentTime(){
 			roundCurrentTime=(new Date().getTime()-roundStartTime)/1000
 			timerHTML="<p>"+roundCurrentTime.toFixed(2) +"sec</p>";
@@ -273,14 +298,8 @@
 				if(wordToGuess.charAt(i)==Guess){
 					wordToGuessRevealedArr[i]=Guess;
 					hitcount++;
-					hitsInRow++;
 				}
 			}
-			//godmode
-			if(hitsInRow==10){
-				invincibleTrigger();
-			}
-
 
 				if(hitcount==0){
 			//store the letter in missHist to display misses. abc order for display
@@ -307,13 +326,27 @@
 				}
 				else{
 			//dunno why i did this but why not
+					console.log(hitsInRow);
 					playSound(hitSound);
 					playSound(hitSound2);
 					hitHist[hitIndex]=Guess;
 					hitHist.sort();
-					hitIndex++;
+					hitsInRow++;
 					addRoundScore();
 				}
+
+			//godmode
+			if(hitsInRow==2){
+				limitBreakCounter++;
+				limitBreakDisplay(limitBreakCounter)
+				hitsInRow=0;
+
+			}
+
+			if(limitBreakCounter==10){
+				invincibleTrigger();
+			}
+
 
 			//check to see if user won the game
 			winCheck=wordToGuessRevealedArr.toString();
