@@ -9,22 +9,43 @@
 
 </head>
 <body>
-	<div id="lettersHit">
-		<p>Press a letter to start playing.</p>
-	</div>
-	<div id="counter" class="hud">
-		<p>Tries Left: 9</p>
-	</div>
-	<div id="lettersMissed" class="hud">
-		<p>Letters Missed</p>
-	</div>
-	<div id="timer" class="hud">
-		<p>0.00 sec</p>
-	</div>
-	<div id="score" class="hud">
-		<p>0</p>
+<div class="container jumbotron">
+
+	<div class="row row-centered">
+		<div id="timer" class="hud col-lg-6">
+			<p>0.00 sec</p>
+		</div>
+		<div id="score" class="hud col-lg-2">
+			<p>Score: 0</p>
+		</div>
+		<div id="scoreWordAni" class="hud col-lg-1">
+			<p>0</p>
+		</div>
 	</div>
 
+	<div class="row">
+		<div id="lettersHit" class="col-lg-10 col-lg-offset-2 col-centered">
+			<p>Press a letter to start playing.</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div id="counter" class="hud col-lg-1">
+			<p>HP: 9</p>
+		</div>
+		<div id="counterAni" class="hud col-lg-3">
+			<p>0</p>
+		</div>
+		<div id="scoreAni" class="hud col-lg-1">
+			<p>0</p>
+		</div>
+	</div>
+		<div id="lettersMissed" class="hud">
+			<p>Letters Missed: </p>
+		</div>
+
+
+</div>
 		<script type="text/javascript">
 
 		var guessHist=[];
@@ -51,6 +72,7 @@
 		var roundStartTime=0;
 		var difficulyMultiplier=1;
 		var wonRounds=0;
+		var displayValue;
 
 		//SOUND EFFECTS
 		var hitSound = new Audio();
@@ -69,6 +91,43 @@
 		missSound.volume = .8;
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
+
+		function hpModify(value){
+			displayValue=value;
+			if(value<0){
+			document.getElementById('counterAni').style.color="#f08080";
+			document.querySelector('#counterAni').innerHTML = displayValue;
+			}
+			else{
+			document.getElementById('counterAni').style.color="#90ee90";
+			document.querySelector('#counterAni').innerHTML = displayValue;
+			}
+			counterAni.style.webkitAnimation="counterChange 1s .3";
+			setTimeout(function(){
+				counterAni.style.webkitAnimation="";
+			},300);
+		}
+
+		function scoreRoundAnimation(value){
+			displayValue=value;
+			document.getElementById('scoreAni').style.color="#90ee90";
+			document.querySelector('#scoreAni').innerHTML = "<p>+"+displayValue+"</p>";
+			scoreAni.style.webkitAnimation="scoreRoundChange 1s .3";
+			setTimeout(function(){
+				scoreAni.style.webkitAnimation="";
+			},300);
+		}
+
+		function scoreWordAnimation(value){
+			displayValue=value;
+			document.getElementById('scoreWordAni').style.color="#d2691e";
+			document.querySelector('#scoreWordAni').innerHTML = "<p>+"+displayValue+"X!</p>";
+			scoreWordAni.style.webkitAnimation="scoreWordChange 1.5s 1";
+			setTimeout(function(){
+				scoreWordAni.style.webkitAnimation="";
+			},1500);
+		}
+
 		function playSound(sound){
 			sound.play();
 			sound.currentTime=0;
@@ -105,7 +164,7 @@
 		}
 
 		function displayScore(){
-			scoreHTML="<p>"+score+"</p>";
+			scoreHTML="<p>Score: "+score+"</p>";
 			document.querySelector('#score').innerHTML=scoreHTML;
 		}
 
@@ -113,6 +172,7 @@
 			roundscore=50*combo;
 			score=score+roundscore;
 			combo++;
+			scoreRoundAnimation(roundscore);
 			displayScore();
 		}
 
@@ -128,6 +188,7 @@
 			score=Math.floor(score+(roundscore)*scoreMultiplier*difficulyMultiplier);
 
 			roundscore=0;
+			scoreWordAnimation(scoreMultiplier.toFixed(2));
 			displayScore();
 			roundStartTime=new Date().getTime();
 		}
@@ -192,6 +253,7 @@
 				if(hitcount==0){
 			//store the letter in missHist to display misses. abc order for display
 					playSound(missSound);
+					hpModify(-1);
 					missHist[missIndex]=Guess;
 					missHist.sort();
 					missIndex++;
@@ -234,11 +296,11 @@
 			}
 
 			//display misses	
-				var lettersMissedHTML = "<p>"+missHist+"</p>";
+				var lettersMissedHTML = "<p>Letters Missed: "+missHist+"</p>";
 
 			//the actual queryselectors
 			document.querySelector('#lettersMissed').innerHTML = lettersMissedHTML;
-			document.querySelector('#counter').innerHTML= "<p>Tries Left: "+counter+"</p>";
+			document.querySelector('#counter').innerHTML= "<p>HP: "+counter+"</p>";
 			}
 		}
 

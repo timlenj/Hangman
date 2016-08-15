@@ -5,19 +5,70 @@
 
 }
 #lettersHit{
-	font-family:"Unica One";
+	font-family:"Ubuntu";
+	float:left;
 }
 #counter{
 	
 }
-#timer{
+#counterAni{
+	float:left;
+	margin-left:-30px;
+	font-weight:600;
+	opacity:0;
+}
 
+@keyframes counterChange{
+	0% {opacity:0;}
+	10% {opacity:.6; transform: translateX(-10px);}
+	20% {opacity: 1; transform: translateX(-5px);}
+	30% {opacity: 1; transform: translateX(0px);}
+	60% {opacity:.7; transform:translateX(-3px);}
+	70% {opacity:.5; transform:translateX(-5px);}
+	80% {opacity:.3; transform:translateX(-7px);}
+	90% {opacity:.1; transform:translateX(-10px);}
+	100% {opacity:0;}
+}
+
+#timer{
+	float:left;
 }
 #score{
-
+	float:left;
 }
-.container{
-
+#scoreAni{
+	float:left;
+	opacity:0;
+	margin-left:-50px;
+	font-weight:600;
+}
+#scoreWordAni{
+	float:left;
+	opacity:0;
+	margin-left:-50px;
+	font-weight:900;
+}
+@keyframes scoreRoundChange{
+	0% {opacity:.5;}
+	10% {opacity:.6; transform: translateX(-10px);}
+	20% {opacity: 1; transform: translateX(-5px);}
+	30% {opacity: 1; transform: translateX(0px);}
+	60% {opacity: 1; transform:translateX(-3px);}
+	70% {opacity: 1; transform:translateX(-5px);}
+	80% {opacity:.3; transform:translateX(-7px);}
+	90% {opacity:.1; transform:translateX(-10px);}
+	100% {opacity:0;}
+}
+@keyframes scoreWordChange{
+	0% {opacity:.5;}
+	10% {opacity: 1; transform: translateX(-10px);}
+	20% {opacity: 1; transform: translateX(-5px);}
+	30% {opacity: 1; transform: translateX(0px);}
+	60% {opacity: 1; transform:translateX(-3px);}
+	70% {opacity: 1; transform:translateX(-5px);}
+	80% {opacity: 1; transform:translateX(-7px);}
+	90% {opacity:.1; transform:translateX(-10px);}
+	100% {opacity:0;}
 }
 .hud{
 	font-family:"Share";	
