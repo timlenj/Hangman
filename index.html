@@ -49,7 +49,26 @@
 		var roundStartTime=0;
 		var difficulyMultiplier=1;
 		var wonRounds=0;
+
+		//SOUND EFFECTS
+		var hitSound = new Audio();
+		hitSound.src = 'assets/sounds/guessed_letter.mp3';
+
 		//FUNCTIONS HERE DUDEEEE!!!!!
+		function playSound(sound){
+			sound.play();
+			sound.currentTime=0;
+		}
+
+		function displayRevealed(){
+			wordToGuessRevealed=wordToGuessRevealedArr.toString();
+			wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');
+			wordToGuessRevealed=wordToGuessRevealed.replace(/" "/g,"  ");
+			wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
+			var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
+			document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
+		}
+
 		function newGame(){
 			counter=counterMax;
 			GuessIndex=Math.floor(Math.random()*(wordToGuessArr.length))
@@ -58,31 +77,29 @@
 
 			wordToGuessRevealedArr=[];
 				for(i=0;i<wordToGuess.length;i++){
-					if(wordToGuess.charAt(i)!=' '){
+					if(wordToGuess.charAt(i)!=" "){
 						wordToGuessRevealedArr[i]='_';
 					}
 				else{
-					wordToGuessRevealedArr[i]=' ';
+					wordToGuessRevealedArr[i]=" ";
 				}
 			}
 			guessHist=[];
-				wordToGuessRevealed=wordToGuessRevealedArr.toString();
-				wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
-				wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
-				var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
-				document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
-
+			displayRevealed();
 		}
+
 		function displayScore(){
 			scoreHTML="<p>"+score+"</p>";
 			document.querySelector('#score').innerHTML=scoreHTML;
 		}
+
 		function addRoundScore(){
 			roundscore=50*combo;
 			score=score+roundscore;
 			combo++;
 			displayScore();
 		}
+
 		function addEndOfRoundMultipler(){
 			wonRounds++;
 			var scoreMultiplier;
@@ -97,7 +114,6 @@
 			roundscore=0;
 			displayScore();
 			roundStartTime=new Date().getTime();
-
 		}
 
 		function setRoundCurrentTime(){
@@ -145,7 +161,6 @@
 				}
 			}
 		if(guessValidation==true){
-			console.log("out of validation!");
 
 			//check to see if letter is in the word
 
@@ -171,6 +186,7 @@
 				}
 				else{
 			//dunno why i did this but why not
+					playSound(hitSound);
 					hitHist[hitIndex]=Guess;
 					hitHist.sort();
 					hitIndex++;
@@ -190,20 +206,13 @@
 			}
 			//display hits if game not over and not won
 			else if(winCheck!=wordToGuess&&counter>0){
-				wordToGuessRevealed=wordToGuessRevealedArr.toString();
-				wordToGuessRevealed=wordToGuessRevealed.replace(/,/g,'');	
-				wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
-				var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
-				document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
+				displayRevealed();
 			}
 			//game over. pick new word but do not remove the word that you did not guess
 			else{
 				var lettersHitHTML="<p>Game Over</p>";
 				newGame();
 			}
-
-			//display users "hits" if game is still on
-
 
 			//display misses	
 				var missHistString=missHist.toString();
