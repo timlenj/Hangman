@@ -9,9 +9,10 @@
 
 </head>
 <body>
+
 <div id="container" class="container jumbotron">
 	<div class="row">
-		<div id="statusHud" class="dspNone">
+		<div id="statusHud">
 			<span class="glyphicon glyphicon-fire"></span>
 		</div>
 	</div>
@@ -57,7 +58,11 @@
 	</div>
 
 </div>
-		<script type="text/javascript">
+
+
+	<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
 
 		var guessHist=[];
 		var missHist=[];
@@ -111,14 +116,14 @@
 		//this function turns on your super saiyen mode
 		function invincibleTrigger(){
 			playSound(invincible);
-			document.getElementById('statusHud').className="";
+			$('#statusHud').show();
 			isInvincible=true;
 			setTimeout(function() {
 				isInvincible=false;
 				hitsInRow=0;
 				limitBreakCounter=0;
 				limitBreakDisplay(limitBreakCounter);
-			document.getElementById('statusHud').className="dspNone";
+			document.getElementById('#statusHud').hide();
 			},6000
 			);
 		}
@@ -127,12 +132,12 @@
 		function hpModify(value){
 			displayValue=value;
 			if(value<0){
-			document.getElementById('counterAni').style.color="#f08080";
-			document.querySelector('#counterAni').innerHTML = displayValue;
+			$('#counterAni').css('color','f08080');
+			$('#counterAni').html(displayValue);
 			}
 			else{
-			document.getElementById('counterAni').style.color="#90ee90";
-			document.querySelector('#counterAni').innerHTML = displayValue;
+			$('#counterAni').css('color','#90ee90');
+			$('#counterAni').html(displayValue);
 			}
 			counterAni.style.webkitAnimation="counterChange 1s .3";
 			setTimeout(function(){
@@ -142,14 +147,14 @@
 
 		function limitBreakDisplay(value){
 			displayValue=value;
-			document.querySelector('#limitBreakProgress').innerHTML="<p>Limit Break: "+limitBreakCounter.toString()+"/10</p>"
+			$('#limitBreakProgress').html("<p>Limit Break: "+limitBreakCounter.toString()+"/10</p>");
 		}
 
 		//this function creates the green +XXX animation under the revealed letters
 		function scoreRoundAnimation(value){
 			displayValue=value;
-			document.getElementById('scoreAni').style.color="#90ee90";
-			document.querySelector('#scoreAni').innerHTML = "<p>+"+displayValue+"</p>";
+			$('#scoreAni').css('color','#90ee90');
+			$('#scoreAni').html("<p>+"+displayValue+"</p>");
 			scoreAni.style.webkitAnimation="scoreRoundChange 1s .3";
 			setTimeout(function(){
 				scoreAni.style.webkitAnimation="";
@@ -159,8 +164,8 @@
 		//this function creates the orange "number x!!!" near the score
 		function scoreWordAnimation(value){
 			displayValue=value;
-			document.getElementById('scoreWordAni').style.color="#d2691e";
-			document.querySelector('#scoreWordAni').innerHTML = "<p>+"+displayValue+"X!</p>";
+			$('#scoreWordAni').css('color','#d2691e');
+			$('#scoreWordAni').html("<p>+"+displayValue+"X!</p>");
 			scoreWordAni.style.webkitAnimation="scoreWordChange 1.5s 1";
 			setTimeout(function(){
 				scoreWordAni.style.webkitAnimation="";
@@ -180,7 +185,7 @@
 			wordToGuessRevealed=wordToGuessRevealed.replace(/" "/g,"  ");
 			wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
 			var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
-			document.querySelector('#lettersHit').innerHTML = lettersHitHTML;
+			$('#lettersHit').html(lettersHitHTML);
 		}
 
 		//function used to create a new board
@@ -207,8 +212,8 @@
 
 		//function used to display the score
 		function displayScore(){
-			scoreHTML="<p>Score: "+score+"</p>";
-			document.querySelector('#score').innerHTML=scoreHTML;
+			scoreHTML="<p>Score: "+score.toLocaleString()+"</p>";
+			$('#score').html(scoreHTML);
 		}
 
 		//function used to add the round score to total score
@@ -247,13 +252,16 @@
 		function setRoundCurrentTime(){
 			roundCurrentTime=(new Date().getTime()-roundStartTime)/1000
 			timerHTML="<p>"+roundCurrentTime.toFixed(2) +"sec</p>";
-			document.querySelector('#timer').innerHTML = timerHTML;
+			$('#timer').html(timerHTML);
 		}
 
+		//cheesey hide status (limit break) code before game starts
+			if(newGameBoo==true){
+				$('#statusHud').hide();
+			}
 //---------------------------CODE STARTS HERE------------------------------------
-		
 
-		document.onkeyup = function(event){
+		document.onkeydown = function(event){
 
 			//start new game and first round timer
 			if(newGameBoo==true){
@@ -288,7 +296,7 @@
 					guessValidation=true
 				}
 			}
-		if(guessValidation==true){
+			if(guessValidation==true){
 
 			//check to see if letter is in the word
 
@@ -374,8 +382,8 @@
 				var lettersMissedHTML = "<p>Letters Missed: "+missHist+"</p>";
 
 			//the actual queryselectors
-			document.querySelector('#lettersMissed').innerHTML = lettersMissedHTML;
-			document.querySelector('#counter').innerHTML= "<p>HP: "+counter+"</p>";
+			$('#lettersMissed').html(lettersMissedHTML);
+			$('#counter').html("<p>HP: "+counter+"</p>");
 			}
 		}
 
