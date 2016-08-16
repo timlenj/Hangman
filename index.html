@@ -59,39 +59,38 @@
 
 </div>
 
-
 	<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
 
-		var guessHist=[];
-		var missHist=[];
-		var	wordToGuess="placeholder";
-		var prevWordToGuess="placeholder";
-		var wordToGuessArr=["final fantasy vii", "super smash brothers","orcarina of time","x com","chrono trigger","call of duty","elder scrolls"];
-		var GuessIndex;
-		var wordToGuessRevealed;
-		var counter;
-		var counterMax=9;
-		var k=0;
-		var missIndex=0;
-		var hitHist=[];
-		var hitIndex=0;
-		var alphabet = "abcdefghijklmnopqrstuvwxyz";
-		var newGameBoo=true;
-		var winCheck="placeholder";
-		var score=0;
-		var roundscore=0;
-		var combo=1;
-		var roundEndTime;
-		var roundCurrentTime=0;
-		var roundStartTime=0;
-		var difficulyMultiplier=1;
-		var wonRounds=0;
-		var displayValue;
-		var isInvincible=false;
-		var hitsInRow=0;
-		var limitBreakCounter=0;
+		var guessHist=[],
+		missHist=[],
+		wordToGuess="placeholder",
+		prevWordToGuess="placeholder",
+		wordToGuessArr=["final fantasy vii", "super smash brothers","orcarina of time","x com","chrono trigger","call of duty","elder scrolls"],
+		GuessIndex,
+		wordToGuessRevealed,
+		counter,
+		counterMax=9,
+		k=0,
+		missIndex=0,
+		hitHist=[],
+		hitIndex=0,
+		alphabet = "abcdefghijklmnopqrstuvwxyz",
+		newGameBoo=true,
+		winCheck="placeholder",
+		score=0,
+		roundscore=0,
+		combo=1,
+		roundEndTime,
+		roundCurrentTime=0,
+		roundStartTime=0,
+		difficulyMultiplier=1,
+		wonRounds=0,
+		displayValue,
+		isInvincible=false,
+		hitsInRow=0,
+		limitBreakCounter=0;
 
 		//SOUND EFFECTS
 		var hitSound = new Audio();
@@ -119,8 +118,8 @@
 			playSound(invincible);
 			document.body.style.webkitAnimation="shake .1s 4"
 			setTimeout(function(){
-					lettersHit.style.webkitAnimations="";
-			},150)
+					document.body.style.webkitAnimations="";
+			},400)
 			$('#statusHud').show();
 			isInvincible=true;
 			setTimeout(function() {
