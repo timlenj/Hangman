@@ -114,8 +114,13 @@
 		//FUNCTIONS HERE DUDEEEE!!!!!
 
 		//this function turns on your super saiyen mode
+
 		function invincibleTrigger(){
 			playSound(invincible);
+			document.body.style.webkitAnimation="shake .1s 4"
+			setTimeout(function(){
+					lettersHit.style.webkitAnimations="";
+			},150)
 			$('#statusHud').show();
 			isInvincible=true;
 			setTimeout(function() {
@@ -123,7 +128,7 @@
 				hitsInRow=0;
 				limitBreakCounter=0;
 				limitBreakDisplay(limitBreakCounter);
-			document.getElementById('#statusHud').hide();
+			$('#statusHud').hide();
 			},6000
 			);
 		}
@@ -139,7 +144,7 @@
 			$('#counterAni').css('color','#90ee90');
 			$('#counterAni').html(displayValue);
 			}
-			counterAni.style.webkitAnimation="counterChange 1s .3";
+			counterAni.style.webkitAnimation="counterChange 1s 1";
 			setTimeout(function(){
 				counterAni.style.webkitAnimation="";
 			},300);
@@ -155,7 +160,7 @@
 			displayValue=value;
 			$('#scoreAni').css('color','#90ee90');
 			$('#scoreAni').html("<p>+"+displayValue+"</p>");
-			scoreAni.style.webkitAnimation="scoreRoundChange 1s .3";
+			scoreAni.style.webkitAnimation="scoreRoundChange 1s 1";
 			setTimeout(function(){
 				scoreAni.style.webkitAnimation="";
 			},300);
@@ -186,6 +191,7 @@
 			wordToGuessRevealed=wordToGuessRevealed.replace(/_/g,'_ ');
 			var lettersHitHTML="<p>"+wordToGuessRevealed+"</p>";
 			$('#lettersHit').html(lettersHitHTML);
+
 		}
 
 		//function used to create a new board
@@ -351,8 +357,9 @@
 
 			}
 
-			if(limitBreakCounter==10){
+			if(limitBreakCounter>=10){
 				invincibleTrigger();
+				hitsInRow=0;
 			}
 
 

@@ -28,7 +28,11 @@ float:left;
 	font-weight:600;
 	opacity:0;
 }
-
+@keyframes shake{
+	0% {transform: rotate(0deg);}
+	50%{transform: rotate(1deg);}
+	100%{transform: rotate(1deg);}
+}
 @keyframes counterChange{
 	0% {opacity:0;}
 	10% {opacity:.6; transform: translateX(-10px);}
