@@ -93,12 +93,16 @@
 		limitBreakCounter=0;
 
 		//SOUND EFFECTS
-		var hitSound = getAudio('assets/sounds/guessed_letter.mp3',.75);
-		var hitSound2 = getAudio('assets/sounds/guessed_letter2.mp3', .6);
-		var killWord = getAudio('assets/sounds/kill_word.mp3', .6);
+		var hitSound = getAudio('assets/sounds/guessed_letter.mp3');
+			hitSound.volume=.75;
+		var hitSound2 = getAudio('assets/sounds/guessed_letter2.mp3');
+			hitSound2.volume=.6;
+		var killWord = getAudio('assets/sounds/kill_word.mp3');
+			killWord.volume=.6;
 		var killWord2 = getAudio('assets/sounds/kill_word2.mp3');
-		var missSound = getAudio('assets/sounds/wrong_letter.mp3', .8);
-		var invincible = getAudio('assets/sounds/invincible.mp3',1)
+		var missSound = getAudio('assets/sounds/wrong_letter.mp3');
+			missSound.volume=.8;
+		var invincible = getAudio('assets/sounds/invincible.mp');
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
 
@@ -107,7 +111,6 @@
 		function getAudio(src, volume){
 			var a = new Audio();
 			a.src = src;
-			a.volume = volume;
 			return a;
 		}
 
