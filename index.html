@@ -93,33 +93,34 @@
 		limitBreakCounter=0;
 
 		//SOUND EFFECTS
-		var hitSound = new Audio();
-		hitSound.src = 'assets/sounds/guessed_letter.mp3';
-		hitSound.volume=.75;
-		var hitSound2 = new Audio();
-		hitSound2.src = 'assets/sounds/guessed_letter2.mp3';
-		hitSound2.volume=.6;
-		var killWord = new Audio();
-		killWord.src = 'assets/sounds/kill_word.mp3';
-		killWord.volume = .6;
-		var killWord2 = new Audio();
-		killWord2.src = 'assets/sounds/kill_word2.mp3';
-		var missSound = new Audio();
-		missSound.src = 'assets/sounds/wrong_letter.mp3';
-		missSound.volume = .8;
-		var invincible = new Audio()
-		invincible.src = 'assets/sounds/invincible.mp3'
+		var hitSound = getAudio('assets/sounds/guessed_letter.mp3',.75);
+		var hitSound2 = getAudio('assets/sounds/guessed_letter2.mp3', .6);
+		var killWord = getAudio('assets/sounds/kill_word.mp3', .6);
+		var killWord2 = getAudio('assets/sounds/kill_word2.mp3');
+		var missSound = getAudio('assets/sounds/wrong_letter.mp3', .8);
+		var invincible = getAudio('assets/sounds/invincible.mp3',1)
 
 		//FUNCTIONS HERE DUDEEEE!!!!!
 
 		//this function turns on your super saiyen mode
 
+		function getAudio(src, volume){
+			var a = new Audio();
+			a.src = src;
+			a.volume = volume;
+			return a;
+		}
+
+		function gameOver(){
+			$('#lettersHit').html("<p>Game Over</p>");
+		}
+
 		function invincibleTrigger(){
 			playSound(invincible);
 			document.body.style.webkitAnimation="shake .1s 4"
 			setTimeout(function(){
-					document.body.style.webkitAnimations="";
-			},400)
+					document.body.style.webkitAnimation="";
+			},400);
 			$('#statusHud').show();
 			isInvincible=true;
 			setTimeout(function() {
@@ -128,7 +129,7 @@
 				limitBreakCounter=0;
 				limitBreakDisplay(limitBreakCounter);
 			$('#statusHud').hide();
-			},6000
+			},10000
 			);
 		}
 
@@ -260,6 +261,10 @@
 			$('#timer').html(timerHTML);
 		}
 
+		function checkGuessAndUpdate(){
+
+		}
+
 		//cheesey hide status (limit break) code before game starts
 			if(newGameBoo==true){
 				$('#statusHud').hide();
@@ -381,7 +386,7 @@
 			}
 			//game over. pick new word but do not remove the word that you did not guess
 			else{
-				var lettersHitHTML="<p>Game Over</p>";
+				gameOver();
 			}
 
 			//display misses	
