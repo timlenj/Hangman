@@ -67,7 +67,7 @@
 		missHist=[],
 		wordToGuess="placeholder",
 		prevWordToGuess="placeholder",
-		wordToGuessArr=["final fantasy vii", "super smash brothers","orcarina of time","x com","chrono trigger","call of duty","elder scrolls"],
+		wordToGuessArr=["Tetris", "Super Mario World", "Megaman", "Pokemon", "Injustice", "Mortal Kombat", "Street Fighter", "Mass Effect", "Portal", "Overwatch", "Tekken", "Soul Calibur","Metroid Prime", "Castlevania", "Metal Gear Solid", "Silent Hill", "Mario Kart", "Donkey Kong Country", "Kingdom Hearts", "Shadow of the Colossus", "Uncharted", "Last of Us", "Resident Evil", "God of War", "Devil May Cry", "Ninja Gaiden", "Dragon Age", "The Witcher", "Fallout", "Tomb Raider", "Shovel Knight", "Banjo Kazooie", "Star Fox", "Ratchet and Clank", "Crash Bandicoot", "Jak and Daxter", "Kirby Super Star", "Splinter Cell", "Max Payne", "Rainbow Six", "Hitman", "Minecraft", "Angry Birds", "Candy Crush Saga", "Guilty Gear", "Sonic the Hedgehog", "Battlefield", "Starcraft", "Diablo", "World of Warcraft", "Hearthstone", "Heroes of the Storm", "League of Legends", "DayZ", "Rayman Origins", "Mario Party", "No Mans Sky"],
 		GuessIndex,
 		wordToGuessRevealed,
 		counter,
@@ -278,6 +278,9 @@
 
 			//start new game and first round timer
 			if(newGameBoo==true){
+				for(var i=0;i<wordToGuessArr.length;i++){
+					wordToGuessArr[i]=wordToGuessArr[i].toString();
+				}
 				newGame();
 				newGameBoo=false;
 				roundStartTime=new Date().getTime();
